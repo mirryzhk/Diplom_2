@@ -1,4 +1,4 @@
-WRONG_INGREDIENTS = {"ingredients": ["123456qwerty654321","987654321qwertytrewq"]}
+WRONG_INGREDIENTS = {"ingredients": ["777kit555","34ter434"]}
 
 MESSAGE_EMPTY_ORDER_AUTH = "Ingredient ids must be provided"
 MESSAGE_NOT_CHANGE = "You should be authorised"
