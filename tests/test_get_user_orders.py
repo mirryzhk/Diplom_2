@@ -7,7 +7,7 @@ class TestGetUsersOrders:
     @allure.title("Успешное получение списка заказов авторизованного пользователя")
     @allure.description("Проверка успешного получения cписка заказов авторизованного пользователя")
     def test_get_orders_auth_users_success(self, default_user, default_burger):
-        user_response, access_token = default_user
+        access_token = default_user ['access_token']
         headers = {"Authorization": access_token}
         ingredients = default_burger
         stellar_burgers_api.create_new_order(headers, ingredients)

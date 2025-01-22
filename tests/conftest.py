@@ -8,7 +8,10 @@ def default_user():
     user_body = stellar_burgers_api.create_user_body()
     user_response = stellar_burgers_api.create_user(user_body)
     access_token = stellar_burgers_api.get_access_token(user_response)
-    yield user_response, access_token
+    yield {"user_data": user_body,
+           "access_token": access_token,
+           "user_response" : user_response
+           }
     stellar_burgers_api.delete_user(access_token)
 
 
@@ -22,3 +25,4 @@ def default_burger():
             ingredient_types[item["type"]] = item["_id"]
     burger_ingredient = {"ingredients": list(ingredient_types.values())}
     return burger_ingredient
+

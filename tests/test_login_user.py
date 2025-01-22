@@ -2,15 +2,17 @@ import allure
 import pytest
 import data
 import stellar_burgers_api
+
+
 class TestLoginUser:
     @allure.title("Успешная авторизация существующего пользователя")
     @allure.description("Авторизация с email и password в теле запроса")
-    def test_login_user_success(self):
-        user_data = stellar_burgers_api.create_user_body()
-        user_response = stellar_burgers_api.create_user(user_data)
+    def test_login_user_success(self, default_user):
+        user_data = default_user['user_data']
+        access_token = default_user['access_token']
+
         user_data.pop("name", None)
         login_response = stellar_burgers_api.login_user(user_data)
-        access_token = stellar_burgers_api.get_access_token(user_response)
         stellar_burgers_api.delete_user(access_token)
         assert login_response.status_code == 200 and login_response.json()["success"] == True
 
@@ -21,13 +23,13 @@ class TestLoginUser:
                                  ("email", ""),
                                  ("password", "")
                              ])
-    def test_login_without_field_fail(self, key, value):
-        user_data = stellar_burgers_api.create_user_body()
-        user_response = stellar_burgers_api.create_user(user_data)
+    def test_login_without_field_fail(self, key, value, default_user):
+        user_data = default_user['user_data']
+        access_token = default_user['access_token']
+
         login_data = user_data.copy()
         login_data[key] = value
         login_data.pop("name", None)
         login_response = stellar_burgers_api.login_user(login_data)
-        access_token = stellar_burgers_api.get_access_token(user_response)
         stellar_burgers_api.delete_user(access_token)
         assert login_response.status_code == 401 and login_response.json()["message"] == data.MESSAGE_INCORRECT_DATA
